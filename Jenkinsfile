@@ -6,11 +6,14 @@ node {
         }
     }   
     stage('Test') { 
-        checkout scm
-        docker.image('maven:3.9.0-eclipse-temurin-11').inside('-v /root/.m2:/root/.m2') {
-            sh 'mvn test'
-        }              
-        post {
+        try {
+            checkout scm
+            docker.image('maven:3.9.0-eclipse-temurin-11').inside('-v /root/.m2:/root/.m2') {
+                sh 'mvn test'
+            } 
+        } catch (e) {
+            throw e
+        } finally {
             always {
                 junit 'target/surefire-reports/*.xml'
             }
