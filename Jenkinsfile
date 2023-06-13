@@ -14,9 +14,7 @@ node {
         } catch (e) {
             throw e
         } finally {
-            always {
-                junit 'target/surefire-reports/*.xml'
-            }
+            junit 'target/surefire-reports/*.xml'
         }
     }
 }
